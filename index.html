@@ -1,48 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Launch Chromecast App</title>
-</head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Myanmar ↔ Gregorian Calendar Converter</title>
+
+
 <style>
-  body {
-    background-color: rgb(42, 235, 252);
-    color: rgb(0, 0, 0);
+  :root{
+    --bg-green: #00A758;
+    --green-700: #018b01;
+    --green-800: #008000;
+    --card-bg: rgba(255,255,255,0.92);
+    --text: #000;
+    --muted: #333;
+    --border: #ccc;
+    --shadow: 0 8px 16px rgba(0,0,0,0.25);
+    --radius: 12px;
   }
 
-  #changeGrego,#changeMM{
-    background-color: rgb(33, 9, 212);
-    color: white;
-    margin-left: 1%;
+  /* Center the whole page content */
+  body {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;              /* Grid makes centering easy */
+    place-items: center;        /* centers horizontally & vertically */
+    background-color: var(--bg-green);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+  }
+
+  /* Outer wrapper for max width */
+  .wrapper {
+    width: 90%;
+    max-width: 1080px;          /* widened from 760px */
+    margin-right: 50px;            /* breathing space on small screens */
+  }
+
+  /* Card/container */
+  .container {
+    width: 100%;
+    max-width: 980px;           /* widened from 700px */
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px;              /* increased inner padding */
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.9s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section panels */
+  .panel {
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    background: #fff;
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+
+  /* Grid layout for label|control pairs */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 14px;
+    row-gap: 12px;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; } /* stack on mobile */
+  }
+
+  /* Center the action buttons */
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  /* Button style */
+  button {
+    background: var(--green-700);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  button:hover {
+    background: var(--green-800);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  }
+
+  /* Typography */
+  h3 {
+    text-align: center;
+    margin: 8px 0 16px;
+    color: var(--text);
+  }
+
+  label {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Controls */
+  select, input[type="text"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    background: #fafafa;
+    min-width: 160px;
+    outline: none;
+  }
+  select:focus, input[type="text"]:focus {
+    border-color: var(--green-700);
+    box-shadow: 0 0 0 3px rgba(1,139,1,0.15);
+  }
+
+  /* Inline weekday label (optional) */
+  #w-day {
+    margin-right: 8px;
+    color: var(--muted);
+    min-height: 1.5em;
   }
 </style>
+</head>
+
 <body>
+  <div class="wrapper">
+    <div class="container">
+      <h3>Myanmar Calendar</h3>
+      <div class="panel">
+        <div class="grid">
+          <label for="m-year">Year:</label>
+          <select id="m-year" aria-label="Myanmar year"></select>
 
-  <h3>Myanmar Calendar</h3>
-        
-        <label for="m-year">Year:</label>
-        <select id="m-year"></select>
+          <label for="m-month">Month:</label>
+          <select id="m-month" aria-label="Myanmar month"></select>
 
-        <label for="m-month">Month:</label>
-        <select id="m-month"></select>
+          <label for="m-day">Day:</label>
+          <select id="m-day" aria-label="Myanmar day"></select>
+        </div>
+        <div class="actions">
+          <label id="w-day" aria-live="polite"></label>
+          <button id="changeGrego">Convert To Grego</button>
+        </div>
+      </div>
 
-        <label for="m-day">Day:</label>
-        <select id="m-day"></select>
-        <label id="w-day"></label><button id="changeGrego">Convert To Grego</button>
+      <h3>Converted Gregorian Calendar</h3>
+      <div class="panel">
+        <div class="grid">
+          <label for="g-year">Year:</label>
+          <select id="g-year" aria-label="Gregorian year"></select>
 
-        <h3>Converted Gregorian Calendar</h3>
+          <label for="g-month">Month:</label>
+          <select id="g-month" aria-label="Gregorian month"></select>
 
-        <label for="g-year">Year:</label>
-        <select id="g-year"></select>
-
-        <label for="g-month">Month:</label>
-        <select id="g-month"></select>
-
-        <label for="g-day">Day:</label>
-        <select id="g-day"></select><button id="changeMM">Convert To Myanmar</button>
-
+          <label for="g-day">Day:</label>
+          <select id="g-day" aria-label="Gregorian day"></select>
+        </div>
+        <div class="actions">
+          <button id="changeMM">Convert To Myanmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
+
+
+
 <script>
 
   var gDaySelect = document.getElementById('g-day');
