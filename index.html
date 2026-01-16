@@ -172,9 +172,9 @@
           <label for="g-day">Day:</label>
           <select id="g-day" aria-label="Gregorian day"></select>
         </div>
-        <div class="actions">
+        <!-- <div class="actions">
           <button id="changeMM">Convert To Myanmar</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -197,11 +197,18 @@
   document.getElementById('m-month').addEventListener('change', changeMyanmarMonthAndDay);
   document.getElementById('m-year').addEventListener('change', changeMyanmarMonthAndDay);
 
+  
+document.getElementById("g-year").disabled = true;
+document.getElementById("g-month").disabled = true;
+document.getElementById("g-day").disabled = true;
+// document.getElementById("changeMM").disabled = true;
+
+
   // gDaySelect.addEventListener("change", updateGregorianToMyanmar);
   // gMonthSelect.addEventListener("change", updateGregorianToMyanmar);
   // gYearSelect.addEventListener("change", updateGregorianToMyanmar);
   document.getElementById("changeGrego").onclick = updateMyanmarToGregorian;
-  document.getElementById("changeMM").onclick =  updateGregorianToMyanmar;
+  // document.getElementById("changeMM").onclick =  updateGregorianToMyanmar;
 
   var julianDate;
   var today = new Date();
